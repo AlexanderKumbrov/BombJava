@@ -73,7 +73,7 @@ public class Game {
 
     }
 
-    public void  openBoxesAround (Coord coord){
+    private void  openBoxesAround (Coord coord){
         flag.setOpenedToBox(coord);     //Открыть одну клетку
         for (Coord around : Ranges.getCoordsAround(coord))  //Открывает клетки вокруг пустого  путем рекурсии
             openBox(around);                                //метода openBox

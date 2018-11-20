@@ -5,13 +5,14 @@ import java.util.Random;
 public class Bomb {
     private Matrix bombMap;
     private int totalBomb;
+
     Bomb (int totalBomb){
         this.totalBomb = totalBomb;
         fixBombCount();     // Вызов ограничение количество бомб
     }
     void start (){
         bombMap = new Matrix(Box.ZERO);
-        for (int j =  0 ; j < totalBomb ; j++)      //цикл для размещенние 10 бомб
+        for (int j =0 ; j < totalBomb ; j++)      //цикл для размещенние 10 бомб
         placeBomb();
     }
     Box get (Coord coord){
@@ -29,7 +30,7 @@ public class Bomb {
             Coord coord = Ranges.getRandomCoord();
             if (Box.BOMB == bombMap.get(coord))  //Если в координате есть бомба
                 continue;                        // то пропускаем это место
-            bombMap.set(coord,Box.BOMB);
+            bombMap.set(new Coord(coord.x , coord.y),Box.BOMB);
             inNumbersAroundBomb(coord);
             break;
         }

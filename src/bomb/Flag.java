@@ -13,22 +13,25 @@ class Flag {
     }
     public void setOpenedToBox(Coord coord){ //открывает box
         flagMap.set(coord , Box.OPENED);
-        countOfClosedBoxes --; //Дикремент перменной при открытие box
+        countOfClosedBoxes--; //Дикремент перменной при открытие box
     }
-    private void setFlagedToBox(Coord coord){
-        flagMap.set(coord , Box.FLAGED);
-    }
+
     void toggleFlagedToBox (Coord coord){           //Установка и снятие флага
         switch (flagMap.get(coord)){
             case FLAGED: setClosedToBox(coord);       //Убрать флагг
             break;
-            case CLOSED: setFlagedToBox(coord);        //Поставить флаг
+            case CLOSED: setFlagedToBomb(coord);        //Поставить флаг
             break;
         }
     }
 
     private void setClosedToBox(Coord coord) {      //Метод для снятие флага
         flagMap.set(coord,Box.CLOSED);
+    }
+
+
+    public void setFlagedToBomb(Coord coord){
+        flagMap.set(coord , Box.FLAGED);
     }
 
     int getCountOfClosedBoxes() {        //Метод для проверки бколичество бомб
