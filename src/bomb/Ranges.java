@@ -15,7 +15,6 @@ public class Ranges {
             for (int x = 0; x < size.x; x++)
                 allCoords.add(new Coord(x,y));
     }
-
     public static Coord getSize() {
         return size;
     }

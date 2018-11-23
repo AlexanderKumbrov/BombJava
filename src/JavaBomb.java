@@ -3,19 +3,21 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import bomb.*;
 import bomb.Box;
-import bomb.Coord;
-import bomb.Game;
-import bomb.Ranges;
 
 public class JavaBomb extends JFrame {
     private Game game ;            //Переменная класса Game
     private JPanel panel;         //Переменная класса JPanel Swing
     private final int COLS =9;   //Размер окна
     private final int ROWS = 9; //Размер окна
-    private final int BOMBS =10;  //Общее количество бомб
+    private final int BOMBS =5;  //Общее количество бомб
     private final int IMAGE_SIZE=50;        //Размер картинок
     private JLabel label;
+    private JLabel labelStat ;
+    private int statLose = 0  ;
+    private int statWin = 0;
+    private JPanel labelStatWin;
     public static void main(String[] args) {
         new JavaBomb();
 
@@ -24,6 +26,7 @@ public class JavaBomb extends JFrame {
         game = new Game(COLS , ROWS , BOMBS);  //Экземпляр Game в который
         game.start();                         //передается размеры и количество бомб
         setImages();
+        initLabelStat();
         initLabel();                       //Вызов статуса
         initPanel();
         initFrame();
@@ -32,6 +35,10 @@ public class JavaBomb extends JFrame {
     private void initLabel(){
         label = new  JLabel("Добро пожаловать !"); //Приветсвие
         add (label, BorderLayout.SOUTH);     //Размещение статуса
+    }
+    private void initLabelStat(){
+        labelStat = new JLabel("Stat");
+        add(labelStat , BorderLayout.NORTH);
     }
 
     private void initPanel(){  //Создание панели с размером
@@ -57,7 +64,11 @@ public class JavaBomb extends JFrame {
                 if (e.getButton() == MouseEvent.BUTTON2)    //Если нажата правая кнопка мыши
                     game.start();
                 label.setText(getMessage());
-                panel.repaint();   //Перерисовать панель чтобыизменение были видны
+                panel.repaint();   //Перерисовать панель чтобы изменение были видны
+                labelStat.setText(getMessageWin()+ getMessageLose()+statLose+"  You lose                            " +
+                        "                                           You Win"+statWin );
+
+
             }
         });
 
@@ -77,6 +88,24 @@ public class JavaBomb extends JFrame {
                 return "Поздравляю , ты победил !";
                 default:
                     return "...";
+        }
+    }
+    private int getMessageLose (){
+        switch (game.getGameState()){
+            case BOMBED:
+               statLose ++;
+                default:
+                    return 0 ;
+
+        }
+    }
+
+    private int getMessageWin(){
+        switch (game.getGameState()){
+            case WINNER:
+                statWin ++;
+                default:
+                    return 0;
         }
     }
 
