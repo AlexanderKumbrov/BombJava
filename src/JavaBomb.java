@@ -23,6 +23,8 @@ public class JavaBomb extends JFrame  {
     private JRadioButton bombRadio1 = new JRadioButton("5 Бомб");
     private JRadioButton bombRadio2 = new JRadioButton("8 Бомб");
     private JRadioButton bombRadio3 = new JRadioButton("12 Бомб");
+    private JMenuBar menuBar = new JMenuBar();
+    private JMenuItem menuBomb = new JMenuItem("Изменить количество бомб ");
     private JButton buttonStart = new JButton("Старт");
     public static void main(String[] args) {
         new JavaBomb();
@@ -31,7 +33,6 @@ public class JavaBomb extends JFrame  {
 
     public JavaBomb(){
         initPanel2();
-
     }
 
     private void initLabel(){
@@ -48,9 +49,8 @@ public class JavaBomb extends JFrame  {
         setImages();
         initLabelStat();
         initLabel();                       //Вызов статуса
-       initPanel();
-       initFrame();
-
+        initPanel();
+        initFrame();
     }
 
 
@@ -60,7 +60,7 @@ public class JavaBomb extends JFrame  {
             protected void paintComponent(Graphics g) {  //Вставка картинок с enum
                 super.paintComponent(g);
                for (Coord coord : Ranges.getAllCoords())
-                    g.drawImage((Image) game.getBox(coord).image, coord.x*IMAGE_SIZE ,coord.y* IMAGE_SIZE, this);
+                    g.drawImage((Image) game.getBox(coord).image, coord.x*IMAGE_SIZE ,coord.y* IMAGE_SIZE , this);
             }
         };
 
@@ -81,6 +81,7 @@ public class JavaBomb extends JFrame  {
                 labelStat.setText(getMessageWin()+ getMessageLose()+statLose+"  You lose                            " +
                         "                                           You Win"+statWin );
 
+
             }
         });
 
@@ -88,16 +89,40 @@ public class JavaBomb extends JFrame  {
                 Ranges.getSize().x*IMAGE_SIZE,
                 Ranges.getSize().y*IMAGE_SIZE));        //Размер окна Dimension зависимость awt
         add(panel); //Добавление панели на форму
+
+        menuBar.add(createMenu());
+        setJMenuBar(menuBar);
+
     }
 
 
-    ////////////////////////////////////////////////////////////////
 
+
+private JMenu createMenu() {
+        JMenu menu = new JMenu("Меню");
+    menu.addSeparator();
+menu.add(menuBomb);
+menuBomb.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+remove(panel);
+remove(labelStat);
+remove(label);
+        initPanel2();
+
+
+    }
+});
+return menu ;
+}
+
+    //////////////////////////////////////////////////
 
 private void initPanel2(){
+
         panel2 = new JPanel();
 panel2.setLayout(new GridLayout(5,5,2,2));
-
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setTitle("Java BOOOMB!");
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -110,7 +135,6 @@ ButtonGroup group = new ButtonGroup();
 group.add(bombRadio1);
 group.add(bombRadio2);
 group.add(bombRadio3);
-
 panel2.add(bombRadio1);
 panel2.add(bombRadio2);
 panel2.add(bombRadio3);
@@ -129,6 +153,7 @@ public void buttonStart(ActionEvent e){
                                      //передается размеры и количество бомб
             initBombPanel();
             game.start();
+
         }
     if (bombRadio2.isSelected()) {
         BOMBS = 8;
@@ -143,9 +168,9 @@ public void buttonStart(ActionEvent e){
             game.start();
     }
 
-panel2.setVisible(false);
+remove(panel2);
+
 }
-/////////////////////////////////////////////////////////////////
 
     private String getMessage(){            //Сообщение при разных состояниях игры
         switch (game.getGameState()){
